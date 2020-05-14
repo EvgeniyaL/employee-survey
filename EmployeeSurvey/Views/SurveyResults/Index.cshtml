@@ -1,0 +1,18 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@model EmployeeSurvey.Models.SurveyResultChartsViewModel
+
+@inject IViewLocalizer Localizer
+
+<h4>@Localizer[ResourceKeys.SurveyCharts]</h4>
+
+<div class="chart">
+    @await Html.PartialAsync("_LangaugeSeniorityLevelChart", model: Model.JuniorData)
+</div>
+<div class="chart">
+
+    @await Html.PartialAsync("_LangaugeSeniorityLevelChart", model: Model.MidData)
+</div>
+<div class="chart">
+
+    @await Html.PartialAsync("_LangaugeSeniorityLevelChart", model: Model.SeniorData)
+</div>

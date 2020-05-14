@@ -1,0 +1,71 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@model EmployeeSurvey.Models.HomeViewModel
+@inject IViewLocalizer Localizer
+@{
+    var chooseLanguages = Localizer[ResourceKeys.ChooseLanguages];
+    var chooseSeniorityLevel = Localizer[ResourceKeys.ChooseSeniorityLevel];
+}
+<div class="row">
+    <div class="col-md-8">
+        <section>
+            <form asp-controller="Home" asp-action="Index" method="post" class="form-horizontal" novalidate onsubmit="$(this).valid() && (this.querySelector('button[type=submit]').disabled = true)">
+                <h4 class="@(ViewData["Result"] == null ? string.Empty : "text-danger")">
+                    @(ViewData["Result"] == null? Localizer[ResourceKeys.EnterDetails] : ViewData["Result"])
+                </h4>
+                <hr />
+                <div class="form-group">
+                    <label asp-for="FirstName" class="col-md-4 control-label"></label>
+                    <div class="col-md-10">
+                        <input asp-for="FirstName" class="form-control" />
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="LastName" class="col-md-4 control-label"></label>
+                    <div class="col-md-10">
+                        <input asp-for="LastName" class="form-control" />
+                        <span asp-validation-for="LastName" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="YearsOfExperience" class="col-md-4 control-label"></label>
+                    <div class="col-md-10">
+                        <input asp-for="YearsOfExperience" class="form-control" />
+                        <span asp-validation-for="YearsOfExperience" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CurrentPosition" class="col-md-4 control-label"></label>
+                    <div class="col-md-10">
+                        <input asp-for="CurrentPosition" class="form-control" />
+                        <span asp-validation-for="CurrentPosition" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ProgrammingLanguages" class="col-md-4 control-label"></label>
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(model => model.ProgrammingLanguages,
+                                              ViewBag.ProgrammingLanguages as MultiSelectList,
+                                              new { @class = "selectpicker form-control", multiple = "multiple", title = chooseLanguages.Value, onchange = "$(this).valid()" })
+                        <span asp-validation-for="ProgrammingLanguages" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="SeniorityLevel" class="col-md-4 control-label"></label>
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(model => model.SeniorityLevel,
+                                              ViewBag.SeniorityLevels as SelectList,
+                                              chooseSeniorityLevel.Value,
+                                              new { @class = "form-control" })
+                        <span asp-validation-for="SeniorityLevel" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <button type="submit" class="btn btn-primary">@Localizer[ResourceKeys.Submit]</button>
+                    </div>
+                </div>
+            </form>
+        </section>
+    </div>
+</div>

@@ -1,0 +1,51 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@using Highsoft.Web.Mvc.Charts
+@using Highsoft.Web.Mvc.Charts.Rendering
+@using System.Collections
+@model EmployeeSurvey.Models.LangaugeSeniorityLevelChartViewModel
+@inject IViewLocalizer Localizer
+
+@{
+    var langugeShare = Localizer[ResourceKeys.LangugeShare];
+    var chartOptions = new Highcharts
+    {
+        Chart = new Highsoft.Web.Mvc.Charts.Chart
+        {
+            PlotBackgroundColor = null,
+            PlotBorderWidth = null,
+            PlotShadow = new Shadow
+            {
+                Enabled = false
+            }
+        },
+        Title = new Title
+        {
+            Text = Model.Title
+        },
+        Tooltip = new Tooltip
+        {
+            PointFormat = "{series.name}: <b>{point.percentage:.1f}%</b>"
+        },
+        PlotOptions = new PlotOptions
+        {
+            Pie = new PlotOptionsPie
+            {
+                AllowPointSelect = true,
+                Cursor = PlotOptionsPieCursor.Pointer,
+                DataLabels = new Hashtable { { "name", langugeShare.Value.ToString() }, { "format", "<b>{point.name}</b>: {point.percentage:.1f} %" } }
+            }
+        },
+        Series = new List<Series>
+{
+               new PieSeries
+               {
+                   Name = langugeShare.Value.ToString(),
+                   Data = Model.PieSeries.ToList()
+               }
+        }
+    };
+
+    chartOptions.ID = "chart" + Model.Type;
+    var renderer = new HighchartsRenderer(chartOptions);
+}
+@Html.Raw(renderer.RenderHtml())
